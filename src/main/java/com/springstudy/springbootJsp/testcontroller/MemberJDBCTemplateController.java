@@ -13,6 +13,7 @@ public class MemberJDBCTemplateController {
 	@Autowired
 	private MemberJDBCTemplate memberDAO;
 	
+	// 회원 List
 	@GetMapping("/jdbcMembers")
 	public String jdbcMemberList(Model model) {
 		
@@ -20,6 +21,26 @@ public class MemberJDBCTemplateController {
 		
 		System.out.println("list =>"+memberDAO.jdbcMemberList());
 		return "jdbcView/jdbcMembers";
+	}
+	// 회원조회
+	@GetMapping("/jdbcMemberView")
+	public String jdbcMemberView() {
+		return "jdbcView/jdbcMemberView";
+	}
+	// 회원등록
+	@GetMapping("/jdbcMemberRegister")
+	public String jdbcMemberRegister() {
+		return "jdbcView/jdbcMemberRegister";
+	}
+	// 회원수정
+	@GetMapping("/jdbcMemberModify")
+	public String jdbcMemberModify() {
+		return "jdbcView/jdbcMemberModify";
+	}
+	// 회원삭제
+	@GetMapping("/jdbcMemberDelete")
+	public String dbcMemberDelete() {
+		return "jdbcView/jdbcMemberDelete";
 	}
 
 }
