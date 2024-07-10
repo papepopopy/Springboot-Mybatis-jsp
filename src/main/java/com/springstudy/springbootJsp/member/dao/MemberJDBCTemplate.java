@@ -41,10 +41,10 @@ public class MemberJDBCTemplate {
 	public int jdbcMemberDelete(String id) {
 		int isOK = 0;
 		
-		String sql = "delete from t_member = ?" ;
+		String sql = "delete from t_member where id = ?" ;
 		isOK = jdbc.update(sql, id);
 		
-		return 0;
+		return isOK;
 	}
 	
 	
