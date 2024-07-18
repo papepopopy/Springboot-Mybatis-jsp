@@ -13,9 +13,9 @@
 </head>
 <body>
 	<div class="container">
- 	<div>현재 페이지에서 표시할 회원 정보 수 : ${pageResponseDTO.memberList.size() }</div>
-	<div>${pageResponseDTO.total }</div>
-	<div>${pageResponseDTO.memberList }</div>
+		<div>현재 페이지 표시할 회원 정보수 : ${pageResponseDTO.memberList.size()}</div>
+		<div>현재 패이지 표시할 회원 정보: ${pageResponseDTO.memberList}</div>
+		<div>조회할 전체 레코드수: ${pageResponseDTO.total}</div>
 		<h1>회원 목록 조회 </h1>
 		<!-- 검색 기능 -->
 		<form action="/member/list" method="get" od ="searchForm">
