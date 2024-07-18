@@ -20,8 +20,32 @@
 		<!-- 검색 기능 -->
 		<form action="/member/list" method="get" od ="searchForm">
 			<div><input type="hidden" name="page" vlaue="${num }"/></div>
+			<div class="row">
+				<div class="form-check col-6">
+				  <input class="form-check-input" type="checkbox" value="" id="id" name="id">
+				  <label class="form-check-label" for="flexCheckDefault">
+				    아이디
+				  </label>
+				</div>
+				<div class="form-check col-6">
+				  <input class="form-check-input" type="checkbox" value="" id="name" name="name">
+				  <label class="form-check-label" for="flexCheckChecked">
+				    이름
+				  </label>
+				</div>
+			</div>
 			<div>
-				
+				<div>
+				  <input class="form-control" type="search" placeholder="Search" aria-label=""/>
+				</div>
+				<div>
+					<div>
+					  <input class="form-control" type="date"/>
+					</div>
+					<div>
+					  <input class="form-control" type="date"/>
+					</div>
+				</div>
 			</div>
 			<div>
 				<button type="button" name="submit" class="btn"></button>
@@ -50,6 +74,7 @@
 					<tr>
 						<td scope="row">${member.recnum }</td>
 						<td scope="row">
+						
 							<a href="/member/view?id=${member.id }&${pageResponseDTO.link}" 
 								class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
 								${member.id }

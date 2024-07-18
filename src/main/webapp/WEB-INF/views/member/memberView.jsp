@@ -14,6 +14,9 @@
 		<hr>
 		<div>
 			<form name="viewForm">
+			  <!-- 수정 작업 후 현재 페이지 정보 유지 -->
+			  <input type="hidden" name="page" value="${pageRequestDTO.page}">
+			  
 			  <div class="mb-3">
 			    <label for="id" class="col-3 form-label">ID</label>
 			    <input class="form-control" type="text" id="id" class="col-9 form-text" name="id"
@@ -79,7 +82,7 @@
 			consol.log("isOK : ", isOK);
 			
 			if(isOK)
-				location.href="/member/remove?id=${member.id}";
+				location.href="/member/remove?id=${member.id}&${pageRequestDTO.link}";
 			else 
 				return;
 		}
@@ -87,7 +90,7 @@
 		//회원 목록 페이지 이동
 		function listItem(){
 			console.log("list");
-			location.href="/member/list";
+			location.href="/member/list?${pageRequestDTO.link}";
 		}
 	</script>
 </body>
