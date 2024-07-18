@@ -23,7 +23,8 @@ public class MemberJDBCTemplate {
 		String sql = "select * from t_member";
 		
 		// jdbc객체.query(쿼리문, new BeanPropertyRowMapper<객체>(클래스타입.class));
-		List<MemberVO> list  = jdbc.query(sql, new BeanPropertyRowMapper<MemberVO>(MemberVO.class));
+		List<MemberVO> list  = jdbc.query(sql, 
+				new BeanPropertyRowMapper<MemberVO>(MemberVO.class));
 		return list;
 	}
 	
@@ -32,7 +33,8 @@ public class MemberJDBCTemplate {
 		String sql = "select * from t_member where id=?";
 		
 		MemberVO member = 
-				jdbc.queryForObject(sql, new BeanPropertyRowMapper<MemberVO>(MemberVO.class), id);
+				jdbc.queryForObject(sql, 
+						new BeanPropertyRowMapper<MemberVO>(MemberVO.class), id);
 		
 		return member;
 	}
@@ -41,7 +43,7 @@ public class MemberJDBCTemplate {
 	public int jdbcMemberDelete(String id) {
 		int isOK = 0;
 		
-		String sql = "delete from t_member where id = ?" ;
+		String sql = "delete from t_member where id = ?";
 		isOK = jdbc.update(sql, id);
 		
 		return isOK;

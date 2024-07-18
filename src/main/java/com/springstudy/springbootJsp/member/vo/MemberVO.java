@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class MemberVO {
+	
+	private int recnum;
 	private String id;
 	private String pwd;
 	private String name;

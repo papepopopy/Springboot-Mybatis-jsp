@@ -70,29 +70,34 @@
 		    <version>3.0.1</version>
 		</dependency>
 		
+		<!-- database 관련 라이브러리 설정 -->
 		
-		<!-- JdbcTemplate 라이브러리 : spring-boot-starter-jdbc -->
+		<!-- JdbcTemplate 라이브러리 -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-jdbc</artifactId>
 		    <version>3.3.1</version>
 		</dependency>
-		<!-- DB 드라이브 라이브러리 -->
+		<!-- oracle driver 라이브러리 -->
 		<dependency>
 		    <groupId>com.oracle.database.jdbc</groupId>
 		    <artifactId>ojdbc11</artifactId>
 		    <version>23.3.0.23.09</version>
 		</dependency>
-<!--		<dependency>
-			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ojdbc8</artifactId>
-			<scope>runtime</scope>
-		</dependency>-->
-<!--		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
-			<scope>runtime</scope>
-		</dependency>-->
+		
+		<!-- mybatis spring-boot-starter 라이브러리-->
+		<dependency>
+		    <groupId>org.mybatis.spring.boot</groupId>
+		    <artifactId>mybatis-spring-boot-starter</artifactId>
+		    <version>3.0.3</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>org.bgee.log4jdbc-log4j2</groupId>
+		  <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+		  <version>1.16</version>
+		</dependency>		
+
 
 		<!-- lombok-->
 		<dependency>
@@ -101,8 +106,13 @@
 		    <version>1.18.34</version>
 		    <scope>provided</scope>
 		</dependency>
-
 		
+		<!-- JSON관련 라이브러리 -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.17.2</version>
+		</dependency>
 
 	</dependencies>
 

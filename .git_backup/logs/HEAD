@@ -1,0 +1,8 @@
+0000000000000000000000000000000000000000 4845e353361108e0ab919de7a680effc39baf0fa kthnaver <kth_701@naver.com> 1720581444 +0900	commit (initial): first commit
+4845e353361108e0ab919de7a680effc39baf0fa 0000000000000000000000000000000000000000 kthnaver <kth_701@naver.com> 1720581444 +0900	Branch: renamed refs/heads/master to refs/heads/main
+0000000000000000000000000000000000000000 4845e353361108e0ab919de7a680effc39baf0fa kthnaver <kth_701@naver.com> 1720581444 +0900	Branch: renamed refs/heads/master to refs/heads/main
+4845e353361108e0ab919de7a680effc39baf0fa c590806b41ba0c794d3dbfcdaf2883c42ee9abee kthnaver <kth_701@naver.com> 1720581523 +0900	pull --rebase origin main (start): checkout c590806b41ba0c794d3dbfcdaf2883c42ee9abee
+c590806b41ba0c794d3dbfcdaf2883c42ee9abee 38b8eb60ff917b8273038d9007f4bcee19217361 kthnaver <kth_701@naver.com> 1720581591 +0900	rebase (continue): first commit
+38b8eb60ff917b8273038d9007f4bcee19217361 38b8eb60ff917b8273038d9007f4bcee19217361 kthnaver <kth_701@naver.com> 1720581591 +0900	rebase (finish): returning to refs/heads/main
+38b8eb60ff917b8273038d9007f4bcee19217361 4ce203ce8558fc3870e611a7a05ed5a716e4bc6f kthnaver <kth_701@naver.com> 1720585238 +0900	commit: - jdbc connection
+4ce203ce8558fc3870e611a7a05ed5a716e4bc6f d204fa2604f5eedf566cd3e1fe76bdf060ea7596 kthnaver <kth_701@naver.com> 1720591506 +0900	commit: - JDBCTemplate Test

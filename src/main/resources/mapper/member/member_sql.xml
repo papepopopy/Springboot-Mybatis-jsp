@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "HTTPS://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.springstudy.springbootJsp.member.mapper.MemberXmlSQLMapperInterface">
+	
+	<select id="getTime" resultType="String">
+		select sysdate  from dual
+		<!-- mariadb : select now() from dual -->
+	</select>
+	
+	<!-- <select id="getMemberList" resultType="com.springstudy.springbootJsp.member.vo.MemberVO"> -->
+	<!-- resource폴더 있는 mybatis-config.xml에  typeAlias태그에서 별칭을 설정했을 경우   -->
+	<select id="getMemberList" resultType="MemberVO">
+		<!-- select * from t_member -->
+		<!-- 행 번호 추가한 페이지 처리하기 -->
+				select * from (
+		    select rownum as recnum , id, pwd, name, email, joindate 
+		    from (     
+		                select 
+		                    id, pwd, name , email , joindate
+		                from t_member  
+		                order by joindate desc
+		            ) 
+			) 
+			where recnum between #{recStartNum} and #{recEndNum}
+	</select>
+		 <!-- where recnum BETWEEN 1 and 2 -->
+	<select id="getCount" resultType="int">
+		select count(*) from t_member
+	</select>
+	<!-- 공동으로 사용된 sql query -->
+	<sql id="search">
+	</sql>
+	
+	<!--  전달받는 매개변수, 반환하는 자료형 -->
+	<!-- <select id="getMemberView" resultType="com.springstudy.springbootJsp.member.vo.MemberVO"> -->
+	<select id="getMemberView" resultType="MemberVO">
+		select * from t_member where id = #{id}
+	</select>
+	
+	<!-- 1개이상 전달받는 매개변수 -->
+	<select id="insertMember"  parameterType="com.springstudy.springbootJsp.member.vo.MemberVO">
+		insert into t_member (id, pwd, name, email) values (#{id},#{pwd},#{name},#{email})
+	</select>
+
+	<select id="deleteMember">
+		delete from t_member where id = #{id} 
+	</select>
+	
+	<!-- <select id="updateMember" parameterType="com.springstudy.springbootJsp.member.vo.MemberVO"> -->
+	<select id="updateMember" parameterType="MemberVO">
+		update t_member
+			set	pwd=#{pwd}, name=#{name}, email=#{email}
+			where id = #{id}
+	</select>
+	
+	<select id="idCheck" resultType="string">
+		select decode( count(*), 1, 'true','false') as isCheck 
+		from t_member 
+		where id=#{id}
+	</select>
+	
+	<!-- Mybatis 동적 SQL문 -->
+	<select id="getMemberListIf" resultType="MemberVO">
+		<!-- select*from t_member -->
+		<include refid="selectAll"/>
+		<where>
+			<!-- true or false -->
+			<!-- 
+			<if test = "name != '' and name!= null">name=#{name}</if>
+			<if test = "email != '' and email != null">and email=#{email}</if>
+			 -->
+			<choose>
+				<when test="name != '' and name != null and email != and email != null">
+					name=#{name} and email=#{email}
+				</when>
+				<when test = "name != '' and name!= null">
+					name=#{name}
+				</when>
+				<when test = "email != '' and email != null">
+					and email=#{email}
+				</when>
+				<otherwise>
+					<!-- 나머지 경우 -->
+					id like 'hong'
+				</otherwise>
+			</choose>
+		</where>
+		<!-- select*from t_member where name = #{name}
+		select*from t_member where name = #{name} and email = #{email} -->
+		order by joindata desc
+	</select>
+	
+	<select id = "getForeachSelect" parameterType="java.util.Map" resultType="MemberVO">
+		<!-- select*from t_member --> 
+		<include refid="selectAll"/>
+			where name in
+			<foreach item="item" collection="list" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+			order by joindate desc
+	</select>
+	
+	<!-- Oracle 경우 -->
+	<!-- 
+	<insert id="setforEachInsert" parameterType="java.util.Map">
+		insert into t_member(id, pwd, name, email) values
+		<foreach item="item" collection="list" open="insert all" separator="" close="select*from dual">
+		into t_member(id, pwd, name, email)
+		values
+			(
+				#{item.id},
+				#{item.pwd},
+				#{item.name},
+				#{item.email}
+			)
+		</foreach>
+	</insert>
+	 -->
+	
+	<!-- 
+	MySQL/MariaDB 적용
+	
+	<insert id="setforEachInsert" parameterType="java.util.Map">
+		insert into t_member(id, pwd, name, email) values
+		<foreach item="item" collection="list">
+			(
+				#{item.id},
+				#{item.pwd},
+				#{item.name},
+				#{item.email}
+			)
+		</foreach>
+	</insert> -->
+	
+	<!-- 반복구간 include -->
+	<sql id="selectAll">
+		select*from t_member
+	</sql>
+</mapper>
