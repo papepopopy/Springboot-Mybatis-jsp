@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div class="container">
-		<div>현재 페이지 표시할 회원 정보수 : ${pageResponseDTO.memberList.size()}</div>
+		<div>현재 페이지 표시할 회원 정보수 : ${pageReqestDTO.memberList.size()}</div>
 		<div>현재 패이지 표시할 회원 정보: ${pageResponseDTO.memberList}</div>
 		<div>조회할 전체 레코드수: ${pageResponseDTO.total}</div>
 		<h1>회원 목록 조회 </h1>
@@ -50,7 +50,7 @@
 					<tr>
 						<td scope="row">${member.recnum }</td>
 						<td scope="row">
-							<a href="/member/view?id=${member.id }"  
+							<a href="/member/view?id=${member.id }&${pageResponseDTO.link}" 
 								class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
 								${member.id }
 							</a>
@@ -141,10 +141,10 @@
 			const target = e.target;
 			if(target.tagName !== "A")return;
 
-			const num = target.getAttribute("date-num");
+			const page_num = target.getAttribute("data-num");
 			const formObj = document.querySelector("#searchForm");
 			formObj.innerHTML += '<input type="hidden" name="page" value="'+page_num+'"/>';
-			/* formObj.innerHTML += `<input type="hidden" name="page" value="${page_num}"/>`; */
+			formObj.innerHTML += `<input type="hidden" name="page" value="${page_num}"/>`;
 			
 			formObj.submit();
 		})
