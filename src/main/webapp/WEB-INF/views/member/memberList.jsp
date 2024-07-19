@@ -25,6 +25,8 @@
 		<div id="test2>${pageRequestDTO}</div>
 			 
 		--%>
+		<div>조회할 전체 레코드수: ${pageResponseDTO.totalData}</div>
+		<div id = "test3">${ pageRequestDTO}</div>
 	<div class="container">
 		<h3>회원 목록 조회 </h3>
 		
@@ -37,23 +39,23 @@
 					
 			<div class="row m-2">
 				<div class="form-check col-1 me-2">
-				  <input class="form-check-input" type="checkbox"
-				  		${pageRequestDTO.checkType("i")?"checked":"" } 
-				  		value="i" id="id" name="types">
+				  <input class="form-check-input" type="checkbox" 
+				  		value="i" id="id" name="types"
+				  		${pageRequestDTO.checkType("i")?"checked" : "" }
+				  		>
 				  <label class="form-check-label"  for="flexCheckDefault">
-				   		아이디
+				   아이디
 				  </label>
 				</div>
 				
 				<div class="form-check col-1 me-2">
 				  <input class="form-check-input" type="checkbox" 
-				  		${pageRequestDTO.checkType("n")?"checked":"" } 
-				  		value="n" id="name" name="types" checked>
+				  		${pageRequestDTO.checkType("n")?"checked" : "" }
+				  		value="n" id="name" name="types" >
 				  <label class="form-check-label" for="flexCheckChecked">
 				   이름
 				  </label>
 				</div>				
-
 			</div>
 			
 			<div>

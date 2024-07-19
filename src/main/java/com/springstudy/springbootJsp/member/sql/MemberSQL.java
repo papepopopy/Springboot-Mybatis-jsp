@@ -1,4 +1,4 @@
-package com.springstudy.springbootJsp.sql;
+package com.springstudy.springbootJsp.member.sql;
 
 import org.apache.ibatis.jdbc.SQL;
 
@@ -33,6 +33,7 @@ public class MemberSQL {
 //				.toString();
 		
 		String sql = new SQL()
+				
 				.INSERT_INTO("t_member")
 				.VALUES("id", 	"#{id}")
 				.VALUES("pwd", 	"#{pwd}")

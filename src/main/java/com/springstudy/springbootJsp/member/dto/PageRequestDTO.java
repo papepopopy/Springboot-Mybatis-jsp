@@ -100,7 +100,8 @@ public class PageRequestDTO {
 			if (keyword != null) {
 				try {
 					builder.append("&keyword="+URLEncoder.encode(keyword, "UTF-8").toString());
-				} catch (UnsupportedEncodingException e) {log.info(e.getMessage());}
+					//builder.append("&keyword="+keyword);
+				} catch (Exception e) {log.info(e.getMessage());}
 			}
 			
 			// page=1&size=10&types=name&keyword=인코딩된 단어
@@ -117,23 +118,26 @@ public class PageRequestDTO {
 	
 	
 	// 조건 검색
-	public boolean checkType(String[] type) {
-		logger.info("=>Logger, type: "+ type);
-		log.info("=> Log4j2 type: "+ type);
+	public boolean checkType(String type_check) {
+		logger.info("=>Logger, type: "+ type_check);
+		log.info("=> Log4j2 type: "+ type_check);
 		
 		if ( types == null || types.length == 0) {
 			return false;
 		}
 		
+		// 최소 한 개의 요소가 주어진 조건에 만족하면 true
+		// types[0] == "n", types[1]== "n",...
+		return Arrays.stream(types).anyMatch(type_check::equals);
 		//내부 동작
 		//boolean flag =false;
-		// 최소 한 개의 요소가 주어진 조건에 만족하면 true
-		return Arrays.stream(types).anyMatch(type::equals);
+		
 //		for (int i=0; i<types.length; i++) {
 //			if(types[i].equals("n")) {
 //				return true;
 //			}
 //		}
 //		return flag
+		
 	}
 }

@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 
+import com.springstudy.springbootJsp.member.sql.MemberSQL;
 import com.springstudy.springbootJsp.member.vo.MemberVO;
-import com.springstudy.springbootJsp.sql.MemberSQL;
 
 @Mapper
 public interface MemberJavaSQLMapperInterface {
