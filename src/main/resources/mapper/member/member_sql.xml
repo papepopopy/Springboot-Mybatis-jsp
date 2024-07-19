@@ -14,25 +14,64 @@
 	<!-- resource폴더 있는 mybatis-config.xml에  typeAlias태그에서 별칭을 설정했을 경우   -->
 	<select id="getMemberList" resultType="MemberVO">
 		<!-- select * from t_member -->
-		<!-- 행 번호 추가한 페이지 처리하기 -->
-				select * from (
+		
+		<!--  행번호 추가한 페이지 처리하기 -->
+		select * from (
 		    select rownum as recnum , id, pwd, name, email, joindate 
 		    from (     
 		                select 
 		                    id, pwd, name , email , joindate
 		                from t_member  
+		                <!-- 
+                        where
+	                        ( (name  like '%t102%' ) or (id like 'm54%') ) 
+	                        and 
+	                        (joindate BETWEEN '2024/01/01' and  '2024/07/20')
+                        --> 
+                        
+                        <!-- 검색 필터링 include -->
+	                    <include refid="search"></include> 
+	                       
 		                order by joindate desc
 		            ) 
-			) 
-			where recnum between #{recStartNum} and #{recEndNum}
+		 )  
+		 <!-- where recnum BETWEEN 1 and 10 -->
+		 where recnum BETWEEN #{recStartNum} and #{recEndNum}
 	</select>
-		 <!-- where recnum BETWEEN 1 and 2 -->
 	<select id="getCount" resultType="int">
 		select count(*) from t_member
-	</select>
-	<!-- 공동으로 사용된 sql query -->
+		 <!-- 검색 필터링 include -->
+         <include refid="search"></include> 
+	</select>	
+	
+	<!--  공동을 사용된 sql query -->
 	<sql id="search">
+		<where>
+			<if test="types != null and types.length > 0">
+			
+				<foreach collection="types" item="type" 
+						index="idx" open="(" close=")" separator=" OR ">
+						
+					<if test="type=='n'.toString()"> <!-- ( name like '%keyword값%' -->
+					<!--  mariadb : name like concat('%', #{keyword}, '%') -->
+					<!--  oracle :  name like concat(concat('%', #{keyword}), '%') -->
+						name LIKE '%' || #{keyword} ||'%'	
+					</if>
+					<if test="type=='i'.toString()"> <!-- OR id like '%keyword값%' )-->
+						id LIKE  LIKE '%' || #{keyword} ||'%'
+					</if>
+				</foreach>
+			</if>
+			
+			<if test="from != null and to != null">
+				<trim prefix=" and ">
+					joinDate BETWEEN #{from} and #{to} <!-- between a to b: b포함 유무 체크 -->
+				</trim>
+			</if>
+		</where>
 	</sql>
+	
+	
 	
 	<!--  전달받는 매개변수, 반환하는 자료형 -->
 	<!-- <select id="getMemberView" resultType="com.springstudy.springbootJsp.member.vo.MemberVO"> -->
@@ -45,7 +84,7 @@
 		insert into t_member (id, pwd, name, email) values (#{id},#{pwd},#{name},#{email})
 	</select>
 
-	<select id="deleteMember">
+	<select id="deleteMember" >
 		delete from t_member where id = #{id} 
 	</select>
 	
@@ -62,69 +101,63 @@
 		where id=#{id}
 	</select>
 	
-	<!-- Mybatis 동적 SQL문 -->
+	
+	
+	<!--  Mybatis 동적 SQL문  -->
 	<select id="getMemberListIf" resultType="MemberVO">
-		<!-- select*from t_member -->
-		<include refid="selectAll"/>
+		<!-- select * from t_member -->
+		<include refid="selectAll" />
+		
 		<where>
-			<!-- true or false -->
-			<!-- 
-			<if test = "name != '' and name!= null">name=#{name}</if>
-			<if test = "email != '' and email != null">and email=#{email}</if>
-			 -->
+			<!--  
+			<if test="name !='' and name != null">name=#{name}</if>
+			<if test="email !='' and email != null">and email=#{email}</if>
+			-->
+			
 			<choose>
-				<when test="name != '' and name != null and email != and email != null">
+				<when test="name != '' and name != null and  email != '' and email != null">
 					name=#{name} and email=#{email}
 				</when>
-				<when test = "name != '' and name!= null">
-					name=#{name}
-				</when>
-				<when test = "email != '' and email != null">
-					and email=#{email}
-				</when>
-				<otherwise>
-					<!-- 나머지 경우 -->
-					id like 'hong'
-				</otherwise>
+				<when test="name != '' and name != null"> name = #{name} </when>
+				<when test="email !='' and email != null"> email=#{email} </when>
+				<otherwise>id like 'lee'</otherwise>
 			</choose>
 		</where>
-		<!-- select*from t_member where name = #{name}
-		select*from t_member where name = #{name} and email = #{email} -->
-		order by joindata desc
-	</select>
+		order by joindate desc
+	</select>	
 	
-	<select id = "getForeachSelect" parameterType="java.util.Map" resultType="MemberVO">
-		<!-- select*from t_member --> 
-		<include refid="selectAll"/>
-			where name in
-			<foreach item="item" collection="list" open="(" separator="," close=")">
+	
+	<select id="getForEachSelect" parameterType="java.util.Map" resultType="MemberVO">
+		<!-- select * from t_member  -->
+		<include refid="selectAll" />
+		
+		where name in
+			<foreach item="item" collection="list" open="(" separator="," close=")" >
 				#{item}
 			</foreach>
-			order by joindate desc
+		order by joindate desc
 	</select>
 	
-	<!-- Oracle 경우 -->
-	<!-- 
-	<insert id="setforEachInsert" parameterType="java.util.Map">
-		insert into t_member(id, pwd, name, email) values
-		<foreach item="item" collection="list" open="insert all" separator="" close="select*from dual">
-		into t_member(id, pwd, name, email)
+	<!--  Oracle경우:  보류 -->
+<!-- 	<select id="foreachInsert" parameterType="java.util.Map">
+
+      <foreach item="item"  
+      			collection="list" 
+      			index="idx" 
+				open="INSERT ALL" separator=" " close="SELECT * FROM DUAL" >
+          INTO  t_member(id, pwd, name, email)
+          VALUES  (#{item.id},
+                    #{item.pwd},
+                    #{item.name},
+                    #{item.email})
+      </foreach>
+	</select> 	 -->
+	
+	<!-- MySQL/MariaDB 적용
+  	
+	<insert id="setForEachInsert" parameterType="java.util.Map">
+		insert into t_member(id, pwd, name, email)
 		values
-			(
-				#{item.id},
-				#{item.pwd},
-				#{item.name},
-				#{item.email}
-			)
-		</foreach>
-	</insert>
-	 -->
-	
-	<!-- 
-	MySQL/MariaDB 적용
-	
-	<insert id="setforEachInsert" parameterType="java.util.Map">
-		insert into t_member(id, pwd, name, email) values
 		<foreach item="item" collection="list">
 			(
 				#{item.id},
@@ -133,10 +166,14 @@
 				#{item.email}
 			)
 		</foreach>
-	</insert> -->
-	
-	<!-- 반복구간 include -->
+	</insert> 
+	-->
+
+	<!-- include -->
 	<sql id="selectAll">
-		select*from t_member
+		select * from t_member 
 	</sql>
+	
+	
+
 </mapper>
